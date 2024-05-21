@@ -1,0 +1,19 @@
+{
+  "name": "scopus-download",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "csv-parser": "^3.0.0",
+    "csv-writer": "^1.6.0",
+    "dotenv": "^16.4.5",
+    "fs": "^0.0.1-security",
+    "puppeteer": "^22.9.0",
+    "puppeteer-cluster": "^0.24.0"
+  }
+}
