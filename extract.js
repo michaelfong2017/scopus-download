@@ -21,7 +21,7 @@ function escapeCSVValue(value) {
 
 // Function to read JSON files, process data, and generate CSV
 function processJSONFiles(directory) {
-  let summaryContent = 'Index,EID,Title,Keyword,Abstract,Remark\n';
+  let summaryContent = 'Index,EID,Title,Author Keywords,Abstract,Remark\n';
 
   // Read all files in the directory
   fs.readdir(directory, (err, files) => {
@@ -71,28 +71,28 @@ function processJSONFiles(directory) {
           abstractRemark = 'Abstract is null';
         }
 
-        // Flatten and extract indexed keywords
-        let indexedKeywords = [];
+        // Flatten and extract author keywords
+        let authorKeywords = [];
         let keywordRemark = '';
-        for (const key in data.indexedKeywords) {
-          if (data.indexedKeywords.hasOwnProperty(key)) {
-            indexedKeywords = indexedKeywords.concat(data.indexedKeywords[key]);
+        for (const key in data.authorKeywords) {
+          if (data.authorKeywords.hasOwnProperty(key)) {
+            authorKeywords = authorKeywords.concat(data.authorKeywords[key]);
           }
         }
-        if (indexedKeywords.length === 0) {
+        if (authorKeywords.length === 0) {
           keywordRemark = 'Keywords are null';
         }
-        indexedKeywords = indexedKeywords.join(', ');
+        authorKeywords = authorKeywords.join('; ');
 
         // Combine remarks
         let remarks = [];
         if (titleRemark) remarks.push(titleRemark);
         if (abstractRemark) remarks.push(abstractRemark);
         if (keywordRemark) remarks.push(keywordRemark);
-        const remark = escapeCSVValue(remarks.join(', '));
+        const remark = escapeCSVValue(remarks.join('; '));
 
         // Create CSV content for individual file
-        const csvContent = `Index,EID,Title,Keyword,Abstract,Remark\n${escapeCSVValue(fileIndex)},${escapeCSVValue(eid)},${escapeCSVValue(title)},${escapeCSVValue(indexedKeywords)},${escapeCSVValue(abstract)},${remark}`;
+        const csvContent = `Index,EID,Title,Author Keywords,Abstract,Remark\n${escapeCSVValue(fileIndex)},${escapeCSVValue(eid)},${escapeCSVValue(title)},${escapeCSVValue(authorKeywords)},${escapeCSVValue(abstract)},${remark}`;
 
         // Output CSV file name
         const csvFileName = `${fileIndex}_${eid}_tka.csv`;
@@ -103,7 +103,7 @@ function processJSONFiles(directory) {
         console.log('CSV file has been created:', csvFilePath);
 
         // Append to summary content
-        summaryContent += `${escapeCSVValue(fileIndex)},${escapeCSVValue(eid)},${escapeCSVValue(title)},${escapeCSVValue(indexedKeywords)},${escapeCSVValue(abstract)},${remark}\n`;
+        summaryContent += `${escapeCSVValue(fileIndex)},${escapeCSVValue(eid)},${escapeCSVValue(title)},${escapeCSVValue(authorKeywords)},${escapeCSVValue(abstract)},${remark}\n`;
       }
     });
 
